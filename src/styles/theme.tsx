@@ -6,13 +6,19 @@ const config: ThemeConfig = {
   disableTransitionOnChange: false
 }
 
-const fonts = {}
-
-const colors = {}
-
 const theme = extendTheme({
-  colors,
-  fonts,
+  styles: {
+    global: {
+      body: {
+        bg: 'gray.900',
+        color: 'white'
+      }
+    }
+  },
+  fonts: {
+    heading: 'Roboto, sans-serif',
+    body: 'Roboto, sans-serif'
+  },
   config,
 })
 
