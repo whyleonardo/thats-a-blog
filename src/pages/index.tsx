@@ -3,10 +3,14 @@ import Head from 'next/head'
 
 const Home = () => {
   return (
-    <Flex
-    >
-      Hello World
-    </Flex>
+    <>
+      <Head>
+        <title>Home</title>
+      </Head>
+      <Flex>
+        Hello World
+      </Flex>
+    </>
   )
 }
 
