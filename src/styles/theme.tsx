@@ -6,6 +6,8 @@ const config: ThemeConfig = {
   disableTransitionOnChange: false
 }
 
+
+
 const theme = extendTheme({
   styles: {
     global: {
