@@ -19,7 +19,7 @@ const Home = () => {
         px='2rem'
         mt={isSmallerScreen ? '2rem' : 0}
         mx='auto'
-        h='calc(100vh - 5rem)'
+        h={isSmallerScreen ? 'calc(100vh - 10rem)' : 'calc(100vh - 5rem)'}
         maxW='1120px'
         alignItems='center'
         justifyContent={isSmallerScreen ? 'center' : 'space-between'}
@@ -43,9 +43,10 @@ const Home = () => {
           <Heading
             as={'h1'}
             fontWeight='900'
-            fontSize='4rem'
+            fontSize={isSmallerScreen ? '3.7rem' : '4rem'}
             lineHeight='4rem'
             mb='0.7rem !important'
+
           >
             News about <br /> the {' '}
             <Text color='cyan.400' as='span'>
