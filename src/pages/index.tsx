@@ -3,9 +3,7 @@ import SubscribeButton from "@components/buttons/SubscribeButton"
 import Head from 'next/head'
 
 const Home = () => {
-  const [isSmallerScreen] = useMediaQuery("(max-width: 700px)")
-
-
+  const [isASmallerScreen] = useMediaQuery("(max-width: 700px)")
 
   return (
     <>
@@ -14,28 +12,28 @@ const Home = () => {
       </Head>
 
       <Stack
-        direction={isSmallerScreen ? 'column' : 'row'}
+        direction={isASmallerScreen ? 'column' : 'row'}
         as={'main'}
         px='2rem'
-        mt={isSmallerScreen ? '2rem' : 0}
+        mt={isASmallerScreen ? '2rem' : 0}
         mx='auto'
-        h={isSmallerScreen ? 'calc(100vh - 10rem)' : 'calc(100vh - 5rem)'}
+        h={isASmallerScreen ? 'calc(100vh - 5rem)' : 'calc(100vh - 5rem)'}
         maxW='1120px'
         alignItems='center'
-        justifyContent={isSmallerScreen ? 'center' : 'space-between'}
-        bgGradient={isSmallerScreen && 'linear(to-b, gray.900, gray.700)'}
+        justifyContent={isASmallerScreen ? 'center' : 'space-between'}
+        bgGradient={isASmallerScreen && 'linear(to-b, gray.900, gray.700)'}
       >
         <VStack
           as={'section'}
           maxW='600px'
-          alignItems={isSmallerScreen ? 'center' : ''}
-          textAlign={isSmallerScreen ? 'center' : 'start'}
+          alignItems={isASmallerScreen ? 'center' : ''}
+          textAlign={isASmallerScreen ? 'center' : 'start'}
         >
           <Text
             fontWeight='700'
             fontSize='1.5rem'
             lineHeight='2.1rem'
-            mb={isSmallerScreen ? '0.5rem' : '1.5rem'}
+            mb={isASmallerScreen ? '0.5rem' : '1.5rem'}
           >
             👋 Hey, welcome
           </Text>
@@ -43,7 +41,7 @@ const Home = () => {
           <Heading
             as={'h1'}
             fontWeight='900'
-            fontSize={isSmallerScreen ? '3.7rem' : '4rem'}
+            fontSize={isASmallerScreen ? '3.7rem' : '4rem'}
             lineHeight='4rem'
             mb='0.7rem !important'
 
@@ -63,7 +61,7 @@ const Home = () => {
           <SubscribeButton />
         </VStack>
 
-        <Image display={isSmallerScreen && 'none'} w='30rem' src='/assets/images/programer.svg' />
+        <Image display={isASmallerScreen && 'none'} w='30rem' src='/assets/images/programer.svg' />
       </Stack>
     </>
   )

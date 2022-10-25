@@ -1,4 +1,4 @@
-import { Button } from "@chakra-ui/react"
+import { Button, useMediaQuery } from "@chakra-ui/react"
 
 const SubscribeButton = () => {
   return (
