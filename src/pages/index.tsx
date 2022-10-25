@@ -1,10 +1,11 @@
-import { Stack, Heading, Text, Image, VStack, useBreakpoint } from "@chakra-ui/react"
+import { Stack, Heading, Text, Image, VStack, useMediaQuery } from "@chakra-ui/react"
 import SubscribeButton from "@components/buttons/SubscribeButton"
 import Head from 'next/head'
 
 const Home = () => {
-  const breakpoint = useBreakpoint()
-  const isMobile = breakpoint === 'sm'
+  const [isSmallerScreen] = useMediaQuery("(max-width: 700px)")
+
+
 
   return (
     <>
@@ -13,28 +14,28 @@ const Home = () => {
       </Head>
 
       <Stack
-        direction={isMobile ? 'column' : 'row'}
+        direction={isSmallerScreen ? 'column' : 'row'}
         as={'main'}
         px='2rem'
-        mt={isMobile ? '2rem' : 0}
+        mt={isSmallerScreen ? '2rem' : 0}
         mx='auto'
         h='calc(100vh - 5rem)'
         maxW='1120px'
         alignItems='center'
-        justifyContent={isMobile ? 'center' : 'space-between'}
-        bgGradient={isMobile && 'linear(to-b, gray.900, gray.700)'}
+        justifyContent={isSmallerScreen ? 'center' : 'space-between'}
+        bgGradient={isSmallerScreen && 'linear(to-b, gray.900, gray.700)'}
       >
         <VStack
           as={'section'}
           maxW='600px'
-          alignItems={isMobile ? 'center' : ''}
-          textAlign={isMobile ? 'center' : 'start'}
+          alignItems={isSmallerScreen ? 'center' : ''}
+          textAlign={isSmallerScreen ? 'center' : 'start'}
         >
           <Text
             fontWeight='700'
             fontSize='1.5rem'
             lineHeight='2.1rem'
-            mb={isMobile ? '0.5rem' : '1.5rem'}
+            mb={isSmallerScreen ? '0.5rem' : '1.5rem'}
           >
             👋 Hey, welcome
           </Text>
@@ -61,7 +62,7 @@ const Home = () => {
           <SubscribeButton />
         </VStack>
 
-        <Image display={isMobile && 'none'} w='30rem' src='/assets/images/programer.svg' />
+        <Image display={isSmallerScreen && 'none'} w='30rem' src='/assets/images/programer.svg' />
       </Stack>
     </>
   )
