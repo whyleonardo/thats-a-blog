@@ -14,7 +14,6 @@ const Header = () => {
       borderBottomColor='gray.700'
     >
       <Center
-        as={'nav'}
         maxW='1120px'
         w='full'
         h='5rem'
