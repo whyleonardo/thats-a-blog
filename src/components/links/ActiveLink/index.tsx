@@ -1,11 +1,15 @@
+import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { Link as ChakraLink, useMediaQuery } from '@chakra-ui/react'
-import { useRouter } from 'next/router'
 
+interface ActiveLinkProps {
+  children: string
+  href: string
+  onClose?: () => void
+}
 
-
-const ActiveLink = ({ children, href, onClose }) => {
-  const [isASmallerScreen] = useMediaQuery("(max-width: 700px)")
+const ActiveLink = ({ children, href, onClose }: ActiveLinkProps) => {
+  const [isASmallerScreen] = useMediaQuery('(max-width: 700px)')
 
   const stylesActiveLink = {
     content: "''",
@@ -23,6 +27,7 @@ const ActiveLink = ({ children, href, onClose }) => {
   const actualPath = href === router.asPath
 
   return isASmallerScreen ? (
+
     <Link href={href} passHref >
       <ChakraLink
         position='relative'
@@ -56,6 +61,5 @@ const ActiveLink = ({ children, href, onClose }) => {
     </Link >
   )
 }
-
 
 export default ActiveLink
