@@ -1,8 +1,17 @@
-import { Stack, Heading, Text, Image, VStack, useMediaQuery, useBreakpointValue, useBreakpoint } from "@chakra-ui/react"
+import { Stack, Heading, Text, Image, VStack, useMediaQuery } from "@chakra-ui/react"
 import SubscribeButton from "@components/buttons/SubscribeButton"
+import { GetServerSideProps, GetStaticProps } from "next"
 import Head from 'next/head'
+import { stripe } from "src/services/stripe"
 
-const Home = () => {
+interface HomeProps {
+  product: {
+    priceId: string,
+    amount: number
+  }
+}
+
+const Home = ({ product }: HomeProps) => {
   const [isASmallerScreen] = useMediaQuery("(max-width: 700px)", { ssr: true, fallback: true })
 
   return (
@@ -58,9 +67,9 @@ const Home = () => {
             fontWeight='400'
           >
             Get acess to all the publications <br />
-            <Text color='cyan.400' fontWeight='700'>for $9.90 month</Text>
+            <Text color='cyan.400' fontWeight='700'>for {product.amount} month</Text>
           </Text>
-          <SubscribeButton />
+          <SubscribeButton priceId={product.priceId} />
         </VStack>
 
         <Image display={isASmallerScreen && 'none'} w='30rem' src='/assets/images/programer.svg' />
@@ -70,3 +79,30 @@ const Home = () => {
 }
 
 export default Home
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const price = await stripe.prices.retrieve('price_1LxCW5JxUNTbxr08uGkyckQP')
+
+  const product = {
+    priceId: price.id,
+    amount: new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    }).format(price.unit_amount / 100),
+  }
+
+  return {
+    props: {
+      product
+    }
+  }
+}
+
+
+// export const getStaticProps: GetStaticProps = async () => {
+//   return {
+//     props: {
+
+//     }
+//   }
+// }

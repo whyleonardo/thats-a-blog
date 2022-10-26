@@ -1,6 +1,10 @@
 import { Button } from "@chakra-ui/react"
 
-const SubscribeButton = () => {
+interface SubscribeButtonProps {
+  priceId: string
+}
+
+const SubscribeButton = ({ priceId }: SubscribeButtonProps) => {
   return (
     <Button
       bg='yellow.500'
