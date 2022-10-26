@@ -9,7 +9,7 @@ interface ActiveLinkProps {
 }
 
 const ActiveLink = ({ children, href, onClose }: ActiveLinkProps) => {
-  const [isASmallerScreen] = useMediaQuery('(max-width: 700px)')
+  const [isASmallerScreen] = useMediaQuery('(max-width: 700px)', { ssr: true, fallback : true})
 
   const stylesActiveLink = {
     content: "''",

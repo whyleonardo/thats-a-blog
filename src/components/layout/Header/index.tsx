@@ -5,7 +5,7 @@ import DrawerMobile from '@components/layout/DrawerMobile'
 import Logo from '../Logo'
 
 const Header = () => {
-  const [isASmallerScreen] = useMediaQuery("(max-width: 700px)")
+  const [isASmallerScreen] = useMediaQuery("(max-width: 700px)", { ssr: true, fallback: true })
 
   return (
     <Flex
