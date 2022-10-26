@@ -5,10 +5,6 @@ import Head from 'next/head'
 const Home = () => {
   const [isASmallerScreen] = useMediaQuery("(max-width: 700px)", { ssr: true, fallback: true })
 
-  const isMinWidthLg = useBreakpointValue({ lg: true })
-
-  console.log({ isMinWidthLg, isASmallerScreen })
-
   return (
     <>
       <Head>
