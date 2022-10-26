@@ -44,7 +44,6 @@ const Home = () => {
             fontSize={isASmallerScreen ? '3.7rem' : '4rem'}
             lineHeight='4rem'
             mb='0.7rem !important'
-
           >
             News about <br /> the {' '}
             <Text color='cyan.400' as='span'>
@@ -53,11 +52,14 @@ const Home = () => {
             world
           </Heading>
 
-          <Text mb='2rem !important' fontWeight='400'>
+          <Text
+            as={'span'}
+            mb='2rem !important'
+            fontWeight='400'
+          >
             Get acess to all the publications <br />
             <Text color='cyan.400' fontWeight='700'>for $9.90 month</Text>
           </Text>
-
           <SubscribeButton />
         </VStack>
 

@@ -1,26 +1,47 @@
 import Link from 'next/link'
-import { Link as ChakraLink } from '@chakra-ui/react'
+import { Link as ChakraLink, useMediaQuery } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 
-const stylesActiveLink = {
-  content: "''",
-  bg: 'yellow.500',
-  height: '3px',
-  borderRadius: '3px 3px 0 0',
-  width: '100%',
-  position: 'absolute',
-  bottom: '1px',
-  left: 0
-}
 
-const ActiveLink = ({ children, href }) => {
+
+const ActiveLink = ({ children, href, onClose }) => {
+  const [isASmallerScreen] = useMediaQuery("(max-width: 700px)")
+
+  const stylesActiveLink = {
+    content: "''",
+    bg: 'yellow.500',
+    height: '3px',
+    borderRadius: '3px 3px 0 0',
+    width: isASmallerScreen ? '25%' : '100%',
+    position: 'absolute',
+    bottom: '1px',
+    left: isASmallerScreen ? '50%' : 0,
+    marginLeft: isASmallerScreen && '-12.5%'
+  }
+
   const router = useRouter()
   const actualPath = href === router.asPath
 
-  return (
+  return isASmallerScreen ? (
     <Link href={href} passHref >
       <ChakraLink
-        display='inline-block'
+        position='relative'
+        w='full'
+        rounded='5px'
+        fontSize='2xl'
+        textAlign='center'
+        onClick={() => setTimeout(onClose, 150)
+        }
+        fontWeight={actualPath && 'bold'}
+        color={actualPath ? 'white' : 'gray.500'}
+        _after={actualPath && stylesActiveLink}
+      >
+        {children}
+      </ChakraLink>
+    </Link >
+  ) : (
+    <Link href={href} passHref >
+      <ChakraLink
         position='relative'
         px='0.5rem'
         h='5rem'
@@ -33,7 +54,6 @@ const ActiveLink = ({ children, href }) => {
         {children}
       </ChakraLink>
     </Link >
-
   )
 }
 
