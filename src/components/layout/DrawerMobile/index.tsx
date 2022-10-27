@@ -26,6 +26,7 @@ const DrawerMobile = () => {
         bg='none'
         aria-label='Open mobile menu'
         onClick={onOpen}
+        display={['inline-flex', null, 'none']}
       />
       <Drawer
         isOpen={isOpen}
@@ -57,7 +58,7 @@ const DrawerMobile = () => {
               >
                 Home
               </ActiveLink>
-              
+
               <ActiveLink
                 href='/posts'
                 onClose={onClose}

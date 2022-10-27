@@ -1,4 +1,4 @@
-import { Stack, Heading, Text, Image, VStack, useMediaQuery } from "@chakra-ui/react"
+import { Stack, Heading, Text, Image, VStack } from "@chakra-ui/react"
 import SubscribeButton from "@components/buttons/SubscribeButton"
 import { GetStaticProps } from "next"
 import Head from 'next/head'
@@ -12,7 +12,6 @@ interface HomeProps {
 }
 
 const Home = ({ product }: HomeProps) => {
-  const [isASmallerScreen] = useMediaQuery("(max-width: 700px)", { ssr: true, fallback: true })
 
   return (
     <>
@@ -21,28 +20,29 @@ const Home = ({ product }: HomeProps) => {
       </Head>
 
       <Stack
-        direction={isASmallerScreen ? 'column' : 'row'}
+        direction={['column', 'row']}
         as={'main'}
         px='2rem'
-        mt={isASmallerScreen ? '2rem' : 0}
+        mt={['2rem', null, 0]}
         mx='auto'
-        h={isASmallerScreen ? 'calc(100vh - 5rem)' : 'calc(100vh - 5rem)'}
+        h={['calc(100vh - 5rem)', null, 'calc(100vh - 5rem)']}
         maxW='1120px'
         alignItems='center'
-        justifyContent={isASmallerScreen ? 'center' : 'space-between'}
-        bgGradient={isASmallerScreen && 'linear(to-b, gray.900, gray.700)'}
+        bg={[null, null, 'gray.900']}
+        bgGradient={['linear(to-b, gray.900, gray.700)', null]}
+        justifyContent={['center', 'space-between']}
       >
         <VStack
           as={'section'}
           maxW='600px'
-          alignItems={isASmallerScreen ? 'center' : ''}
-          textAlign={isASmallerScreen ? 'center' : 'start'}
+          alignItems={['center', null, 'start']}
+          textAlign={['center', null, 'start']}
         >
           <Text
             fontWeight='700'
             fontSize='1.5rem'
             lineHeight='2.1rem'
-            mb={isASmallerScreen ? '0.5rem' : '1.5rem'}
+            mb={['0.5rem', null, '1.5rem']}
           >
             👋 Hey, welcome
           </Text>
@@ -50,7 +50,7 @@ const Home = ({ product }: HomeProps) => {
           <Heading
             as={'h1'}
             fontWeight='900'
-            fontSize={isASmallerScreen ? '3.7rem' : '4rem'}
+            fontSize='3.7rem'
             lineHeight='4rem'
             mb='0.7rem !important'
           >
@@ -72,14 +72,13 @@ const Home = ({ product }: HomeProps) => {
           <SubscribeButton priceId={product.priceId} />
         </VStack>
 
-        <Image display={isASmallerScreen && 'none'} w='30rem' src='/assets/images/programer.svg' />
+        <Image display={['none', null, 'block']} w='30rem' src='/assets/images/programer.svg' />
       </Stack>
     </>
   )
 }
 
 export default Home
-
 
 export const getStaticProps: GetStaticProps = async () => {
   const price = await stripe.prices.retrieve('price_1LxCW5JxUNTbxr08uGkyckQP')

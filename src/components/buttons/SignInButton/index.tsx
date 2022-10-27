@@ -1,4 +1,4 @@
-import { Button, chakra, useMediaQuery } from "@chakra-ui/react"
+import { Button, chakra, } from "@chakra-ui/react"
 import { FaGithub } from 'react-icons/fa'
 import { FiX } from 'react-icons/fi'
 
@@ -6,12 +6,11 @@ const FaGithubIcon = chakra(FaGithub)
 const FiXIcon = chakra(FiX)
 
 const SignInButton = () => {
-  const [isASmallerScreen] = useMediaQuery("(max-width: 700px)", { ssr: true, fallback : true})
   const isUserLoggedIn = false
 
   return (
     <Button
-      ml={!isASmallerScreen && 'auto'}
+      ml={[null, null, 'auto']}
       bg='gray.700'
       filter='auto'
       _hover={{ brightness: 0.9, transition: '0.2s ease-out' }}

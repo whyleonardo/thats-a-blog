@@ -1,11 +1,10 @@
-import { Flex, HStack, Center, useMediaQuery } from '@chakra-ui/react'
+import { Flex, HStack, Center } from '@chakra-ui/react'
 import SignInButton from '@components/buttons/SignInButton'
 import ActiveLink from '@components/links/ActiveLink'
 import DrawerMobile from '@components/layout/DrawerMobile'
 import Logo from '../Logo'
 
 const Header = () => {
-  const [isASmallerScreen] = useMediaQuery("(max-width: 700px)", { ssr: true, fallback: true })
 
   return (
     <Flex
@@ -21,33 +20,41 @@ const Header = () => {
         w='full'
         h='5rem'
         px='2rem'
-        justifyContent={isASmallerScreen && 'space-between'}
+        justifyContent={['space-between', null]}
       >
-        <Logo />
 
-        {
-          isASmallerScreen ? (
-            <DrawerMobile />
-          ) : (
-            <>
-              <HStack
-                as={'nav'}
-                ml='5rem'
-                h='5rem'
-                gap='1rem'
-              >
-                <ActiveLink href='/'>
-                  Home
-                </ActiveLink>
-                <ActiveLink href='/posts'>
-                  Posts
-                </ActiveLink>
-              </HStack>
+        <Center
+          justifyContent='space-between'
+          w='full'
+        >
+          <Center>
+            <Logo />
 
-              <SignInButton />
-            </>
-          )
-        }
+            <HStack
+              as={'nav'}
+              ml='5rem'
+              h='5rem'
+              gap='1rem'
+              display={['none', 'none', 'flex']}
+              alignSelf='start'
+            >
+              <ActiveLink href='/'>
+                Home
+              </ActiveLink>
+              <ActiveLink href='/posts'>
+                Posts
+              </ActiveLink>
+            </HStack>
+          </Center>
+
+          <DrawerMobile />
+
+          <Center
+            display={['none', null, 'flex']}
+          >
+            <SignInButton />
+          </Center>
+        </Center>
       </Center>
     </Flex >
   )
