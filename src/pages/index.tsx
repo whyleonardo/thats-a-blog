@@ -13,8 +13,6 @@ interface HomeProps {
 
 const Home = ({ product }: HomeProps) => {
 
-  console.log(product)
-
   return (
     <>
       <Head>
@@ -69,9 +67,9 @@ const Home = ({ product }: HomeProps) => {
             fontWeight='400'
           >
             Get acess to all the publications <br />
-            <Text color='cyan.400' fontWeight='700'>for $9.90 month</Text>
+            <Text color='cyan.400' fontWeight='700'>for {product.amount} month</Text>
           </Text>
-          <SubscribeButton />
+          <SubscribeButton priceId={product.priceId} />
         </VStack>
 
         <Image display={['none', null, 'block']} w='30rem' src='/assets/images/programer.svg' />
