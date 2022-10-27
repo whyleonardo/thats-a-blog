@@ -11,8 +11,6 @@ const FiXIcon = chakra(FiX)
 const SignInButton = () => {
   const { data: session, status } = useSession()
 
-  console.log({ session, status })
-
   return (
     <Button
       ml={[null, null, 'auto']}
