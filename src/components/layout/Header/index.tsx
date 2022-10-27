@@ -1,6 +1,6 @@
 import { Flex, HStack, Center } from '@chakra-ui/react'
 import SignInButton from '@components/buttons/SignInButton'
-import ActiveLink from '@components/links/ActiveLink'
+import NavLink from '@components/links/NavLink'
 import DrawerMobile from '@components/layout/DrawerMobile'
 import Logo from '../Logo'
 
@@ -38,12 +38,12 @@ const Header = () => {
               display={['none', 'none', 'flex']}
               alignSelf='start'
             >
-              <ActiveLink href='/'>
+              <NavLink href='/'>
                 Home
-              </ActiveLink>
-              <ActiveLink href='/posts'>
+              </NavLink>
+              <NavLink href='/posts'>
                 Posts
-              </ActiveLink>
+              </NavLink>
             </HStack>
           </Center>
 

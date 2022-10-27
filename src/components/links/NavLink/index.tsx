@@ -8,8 +8,8 @@ interface ActiveLinkProps {
   onClose?: () => void
 }
 
-const ActiveLink = ({ children, href, onClose }: ActiveLinkProps) => {
-  const [isASmallerScreen] = useMediaQuery('(max-width: 700px)', { ssr: true, fallback : true})
+const NavLink = ({ children, href, onClose }: ActiveLinkProps) => {
+  const [isASmallerScreen] = useMediaQuery('(max-width: 700px)', { ssr: true, fallback: true })
 
   const stylesActiveLink = {
     content: "''",
@@ -62,4 +62,4 @@ const ActiveLink = ({ children, href, onClose }: ActiveLinkProps) => {
   )
 }
 
-export default ActiveLink
+export default NavLink

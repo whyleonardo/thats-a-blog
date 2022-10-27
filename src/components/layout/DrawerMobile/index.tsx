@@ -6,15 +6,13 @@ import {
   DrawerContent,
   DrawerCloseButton,
   useDisclosure,
-  Button,
-  Input,
   IconButton,
   Center,
   VStack
 } from '@chakra-ui/react'
 import { FiMenu } from 'react-icons/fi'
 import SignInButton from '@components/buttons/SignInButton'
-import ActiveLink from '@components/links/ActiveLink'
+import NavLink from '@components/links/NavLink'
 
 const DrawerMobile = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -52,19 +50,19 @@ const DrawerMobile = () => {
               h='calc(100vh - 10rem)'
               gap='1rem'
             >
-              <ActiveLink
+              <NavLink
                 href='/'
                 onClose={onClose}
               >
                 Home
-              </ActiveLink>
+              </NavLink>
 
-              <ActiveLink
+              <NavLink
                 href='/posts'
                 onClose={onClose}
               >
                 Posts
-              </ActiveLink>
+              </NavLink>
             </VStack>
           </DrawerBody>
         </DrawerContent>
