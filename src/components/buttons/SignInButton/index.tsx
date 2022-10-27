@@ -1,12 +1,17 @@
-import { Button, chakra, } from "@chakra-ui/react"
+// @ts-ignore
+import { Button, Avatar, chakra } from "@chakra-ui/react"
 import { FaGithub } from 'react-icons/fa'
 import { FiX } from 'react-icons/fi'
+import { signIn, useSession, signOut } from "next-auth/react"
+
 
 const FaGithubIcon = chakra(FaGithub)
 const FiXIcon = chakra(FiX)
 
 const SignInButton = () => {
-  const isUserLoggedIn = false
+  const { data: session, status } = useSession()
+
+  console.log({ session, status })
 
   return (
     <Button
@@ -17,17 +22,26 @@ const SignInButton = () => {
       rounded='full'
       h='3rem'
       px='1.5rem'
-      aria-label={isUserLoggedIn ? 'Username' : 'Sign in with Github'}
+      aria-label={session ? 'Username' : 'Sign in with Github'}
       gap='1rem'
       alignItems='center'
+      onClick={() => !session ? signIn('github') : signOut()}
     >
-      <FaGithubIcon
-        color={isUserLoggedIn ? 'green.500' : 'yellow.500'}
-        size='1.375rem'
-      />
-      {isUserLoggedIn ? 'whyleonardo' : 'Sign in with Github'}
+      {session
+        ? <Avatar
+          name={session.user.name}
+          size='sm'
+          src={session.user.image}
+        />
+        : <FaGithubIcon
+          color={'yellow.500'}
+          size='1.375rem'
+        />
+      }
+
+      {session ? session.user.name : 'Sign in with Github'}
       {
-        isUserLoggedIn && (
+        session && (
           <FiXIcon
             color='gray.400'
             size='1.375rem'
