@@ -4,7 +4,7 @@ interface SubscribeButtonProps {
   priceId: string
 }
 
-const SubscribeButton = ({ priceId }: SubscribeButtonProps) => {
+const SubscribeButton = () => {
   return (
     <Button
       bg='yellow.500'

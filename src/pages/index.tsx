@@ -1,17 +1,16 @@
 import { Stack, Heading, Text, Image, VStack } from "@chakra-ui/react"
 import SubscribeButton from "@components/buttons/SubscribeButton"
-import { GetStaticProps } from "next"
+// import { GetStaticProps } from "next"
 import Head from 'next/head'
-import { stripe } from "src/services/stripe"
 
-interface HomeProps {
-  product: {
-    priceId: string,
-    amount: number
-  }
-}
+// interface HomeProps {
+//   product: {
+//     priceId: string,
+//     amount: number
+//   }
+// }
 
-const Home = ({ product }: HomeProps) => {
+const Home = () => {
 
   return (
     <>
@@ -67,9 +66,9 @@ const Home = ({ product }: HomeProps) => {
             fontWeight='400'
           >
             Get acess to all the publications <br />
-            <Text color='cyan.400' fontWeight='700'>for {product.amount} month</Text>
+            <Text color='cyan.400' fontWeight='700'>for $9.90 month</Text>
           </Text>
-          <SubscribeButton priceId={product.priceId} />
+          <SubscribeButton />
         </VStack>
 
         <Image display={['none', null, 'block']} w='30rem' src='/assets/images/programer.svg' />
@@ -80,21 +79,21 @@ const Home = ({ product }: HomeProps) => {
 
 export default Home
 
-export const getStaticProps: GetStaticProps = async () => {
-  const price = await stripe.prices.retrieve('price_1LxCW5JxUNTbxr08uGkyckQP')
+// export const getStaticProps: GetStaticProps = async () => {
+//   const price = await stripe.prices.retrieve('price_1LxCW5JxUNTbxr08uGkyckQP')
 
-  const product = {
-    priceId: price.id,
-    amount: new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    }).format(price.unit_amount / 100),
-  }
-  return {
-    props: {
-      product
-    },
-    revalidate: 3600 * 24 // 24 hours
-  }
-}
+//   const product = {
+//     priceId: price.id,
+//     amount: new Intl.NumberFormat('en-US', {
+//       style: 'currency',
+//       currency: 'USD',
+//     }).format(price.unit_amount / 100),
+//   }
+//   return {
+//     props: {
+//       product
+//     },
+//     revalidate: 3600 * 24 // 24 hours
+//   }
+// }
 
