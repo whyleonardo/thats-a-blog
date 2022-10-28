@@ -1,5 +1,5 @@
 // @ts-ignore
-import { Button, Avatar, chakra } from "@chakra-ui/react"
+import { Button, Avatar, chakra, Spinner } from "@chakra-ui/react"
 import { FaGithub } from 'react-icons/fa'
 import { FiX } from 'react-icons/fi'
 import { signIn, useSession, signOut } from "next-auth/react"
@@ -23,27 +23,34 @@ const SignInButton = () => {
       aria-label={session ? 'Username' : 'Sign in with Github'}
       gap='1rem'
       alignItems='center'
-      onClick={() => !session ? signIn('github') : signOut()}
+      onClick={() => !session ? signIn('github', { redirect: false }) : signOut({ redirect: false })}
     >
-      {session
-        ? <Avatar
-          name={session.user.name}
-          size='sm'
-          src={session.user.image}
-        />
-        : <FaGithubIcon
-          color={'yellow.500'}
-          size='1.375rem'
-        />
-      }
+      {status == 'loading'
+        ? <Spinner />
+        : (
+          <>
+            {session
+              ? <Avatar
+                name={session.user.name}
+                size='sm'
+                src={session.user.image}
+              />
+              : <FaGithubIcon
+                color={'yellow.500'}
+                size='1.375rem'
+              />
+            }
 
-      {session ? session.user.name : 'Sign in with Github'}
-      {
-        session && (
-          <FiXIcon
-            color='gray.400'
-            size='1.375rem'
-          />
+            {session ? session.user.name : 'Sign in with Github'}
+            {
+              session && (
+                <FiXIcon
+                  color='gray.400'
+                  size='1.375rem'
+                />
+              )
+            }
+          </>
         )
       }
     </Button>

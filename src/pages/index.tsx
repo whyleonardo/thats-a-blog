@@ -12,7 +12,6 @@ interface HomeProps {
 }
 
 const Home = ({ product }: HomeProps) => {
-
   return (
     <>
       <Head>
@@ -25,7 +24,7 @@ const Home = ({ product }: HomeProps) => {
         px='2rem'
         mt={['2rem', null, 0]}
         mx='auto'
-        h={['calc(100vh - 5rem)', null, 'calc(100vh - 5rem)']}
+        h='calc(100vh - 5rem)'
         maxW='1120px'
         alignItems='center'
         bg={[null, null, 'gray.900']}
