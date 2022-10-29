@@ -23,7 +23,7 @@ const SignInButton = () => {
       aria-label={session ? 'Username' : 'Sign in with Github'}
       gap='1rem'
       alignItems='center'
-      onClick={() => !session ? signIn('github', { redirect: false }) : signOut({ redirect: false })}
+      onClick={() => !session ? signIn('github', { redirect: false }) : signOut()}
     >
       {status == 'loading'
         ? <Spinner />

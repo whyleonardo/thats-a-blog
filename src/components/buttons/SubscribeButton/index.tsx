@@ -1,6 +1,9 @@
-import { Button } from "@chakra-ui/react"
+import { Button, Spinner } from "@chakra-ui/react"
 import { useSession, signIn } from "next-auth/react"
-import { stripe } from "src/services/stripe"
+import { useToast } from '@chakra-ui/react'
+import { api } from "src/services/api"
+import { getStripeJs } from "src/services/stripe-js"
+import { useState } from "react"
 
 interface SubscribeButtonProps {
   priceId: string
@@ -8,13 +11,34 @@ interface SubscribeButtonProps {
 
 const SubscribeButton = ({ priceId }: SubscribeButtonProps) => {
   const { data: session, status } = useSession()
+  const [buttonLoading, setButtonLoading] = useState(false)
+  const toast = useToast()
 
   const handleSubscribe = async () => {
     if (!session) {
       signIn('github')
       return
     } else {
+      try {
+        setButtonLoading(true)
+        const response = await api.post('/subscribe')
+        const { sessionId } = response.data
 
+        const stripe = await getStripeJs()
+
+        await stripe.redirectToCheckout({ sessionId: sessionId })
+
+      } catch (err) {
+        setButtonLoading(false)
+        toast({
+          title: 'Error',
+          description: err.message,
+          status: 'error',
+          duration: 10000,
+          isClosable: true,
+          position: 'top-left',
+        })
+      }
     }
   }
 
@@ -31,7 +55,10 @@ const SubscribeButton = ({ priceId }: SubscribeButtonProps) => {
       _hover={{ bg: 'yellow.500', brightness: 0.9 }}
       onClick={handleSubscribe}
     >
-      Subscribe now
+      {buttonLoading
+        ? <Spinner />
+        : 'Subscribe now'
+      }
     </Button>
   )
 }
