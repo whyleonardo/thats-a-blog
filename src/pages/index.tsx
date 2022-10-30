@@ -29,7 +29,7 @@ const Home = ({ product }: HomeProps) => {
         alignItems='center'
         bg={[null, null, 'gray.900']}
         bgGradient={['linear(to-b, gray.900, gray.700)', null]}
-        justifyContent={['center', 'space-between']}
+        justifyContent={['center', 'center', 'space-between']}
       >
         <VStack
           as={'section'}

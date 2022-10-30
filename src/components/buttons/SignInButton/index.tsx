@@ -4,7 +4,6 @@ import { FaGithub } from 'react-icons/fa'
 import { FiX } from 'react-icons/fi'
 import { signIn, useSession, signOut } from "next-auth/react"
 
-
 const FaGithubIcon = chakra(FaGithub)
 const FiXIcon = chakra(FiX)
 
@@ -23,7 +22,7 @@ const SignInButton = () => {
       aria-label={session ? 'Username' : 'Sign in with Github'}
       gap='1rem'
       alignItems='center'
-      onClick={() => !session ? signIn('github', { redirect: false }) : signOut()}
+      onClick={() => !session ? signIn('github') : signOut()}
     >
       {status == 'loading'
         ? <Spinner />

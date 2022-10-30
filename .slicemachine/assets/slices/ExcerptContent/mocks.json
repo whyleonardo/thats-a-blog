@@ -1,0 +1,26 @@
+[
+  {
+    "variation": "default",
+    "version": "sktwi1xtmkfgx8626",
+    "items": [
+      {}
+    ],
+    "primary": {
+      "title": [
+        {
+          "type": "heading1",
+          "text": "Drink",
+          "spans": []
+        }
+      ],
+      "description": [
+        {
+          "type": "paragraph",
+          "text": "Qui reprehenderit id aliquip consequat ea adipisicing minim.",
+          "spans": []
+        }
+      ]
+    },
+    "slice_type": "excerpt_content"
+  }
+]

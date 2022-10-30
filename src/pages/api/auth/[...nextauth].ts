@@ -27,9 +27,10 @@ export const authOptions = {
               )
             ),
             q.Create(q.Collection('users'), { data: { userEmail } }),
-            q.Get(q.Index('user_by_email'), q.Casefold(user.email))
+            q.Get(q.Match(q.Index('user_by_email'), q.Casefold(user.email)))
           )
         )
+        console.log('oi')
         return true
       } catch (err) {
         console.log(err)
