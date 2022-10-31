@@ -16,6 +16,39 @@ export const authOptions = {
   ],
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
+    async session(session) {
+      try {
+        const userActiveSubscription = await client.query(
+          q.Get(
+            q.Intersection([
+              q.Match(
+                q.Index('subscription_by_user_ref'),
+                q.Select(
+                  'ref',
+                  q.Get(
+                    q.Match(
+                      q.Index('user_by_email'),
+                      q.Casefold(session.session.user.email)
+                    )
+                  )
+                )
+              ),
+              q.Match(q.Index('subscription_by_status'), 'active')
+            ])
+          )
+        )
+
+        return {
+          ...session,
+          activeSubscription: userActiveSubscription
+        }
+      } catch {
+        return {
+          ...session,
+          activeSubscription: null
+        }
+      }
+    },
     async signIn({ user, account, profile, email, credentials }) {
       const userEmail = user.email
       try {
@@ -30,7 +63,6 @@ export const authOptions = {
             q.Get(q.Match(q.Index('user_by_email'), q.Casefold(user.email)))
           )
         )
-        console.log('oi')
         return true
       } catch (err) {
         console.log(err)

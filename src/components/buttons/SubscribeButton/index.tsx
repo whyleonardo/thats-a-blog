@@ -4,41 +4,49 @@ import { useToast } from '@chakra-ui/react'
 import { api } from "src/services/api"
 import { getStripeJs } from "src/services/stripe-js"
 import { useState } from "react"
+import { useRouter } from "next/router"
 
 interface SubscribeButtonProps {
   priceId: string
 }
 
 const SubscribeButton = ({ priceId }: SubscribeButtonProps) => {
-  const { data: session, status } = useSession()
+  const { data: session } = useSession()
   const [buttonLoading, setButtonLoading] = useState(false)
   const toast = useToast()
+  const location = useRouter()
 
   const handleSubscribe = async () => {
     if (!session) {
       signIn('github')
       return
-    } else {
-      try {
-        setButtonLoading(true)
-        const response = await api.post('/subscribe')
-        const { sessionId } = response.data
+    }
 
-        const stripe = await getStripeJs()
+    // @ts-ignore
+    if (session.activeSubscription) {
+      location.push('/posts');
+      return;
+    }
 
-        await stripe.redirectToCheckout({ sessionId: sessionId })
+    try {
+      setButtonLoading(true)
+      const response = await api.post('/subscribe')
+      const { sessionId } = response.data
 
-      } catch (err) {
-        setButtonLoading(false)
-        toast({
-          title: 'Error',
-          description: err.message,
-          status: 'error',
-          duration: 10000,
-          isClosable: true,
-          position: 'top-left',
-        })
-      }
+      const stripe = await getStripeJs()
+
+      await stripe.redirectToCheckout({ sessionId: sessionId })
+
+    } catch (err) {
+      setButtonLoading(false)
+      toast({
+        title: 'Error',
+        description: err.message,
+        status: 'error',
+        duration: 10000,
+        isClosable: true,
+        position: 'top-left',
+      })
     }
   }
 

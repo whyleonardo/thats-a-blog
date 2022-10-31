@@ -6,6 +6,7 @@ import { getPrismicClient } from './../../services/prismic'
 import { asText } from '@prismicio/helpers'
 import { useRouter } from 'next/router'
 import { motion } from "framer-motion"
+import { useSession } from "next-auth/react"
 
 type Post = {
   slug: string
@@ -20,6 +21,9 @@ interface PostsProps {
 
 const Posts = ({ posts }: PostsProps) => {
   const location = useRouter()
+  const { data: session } = useSession()
+
+  console.log(session)
 
   return (
     <>
@@ -46,7 +50,8 @@ const Posts = ({ posts }: PostsProps) => {
           mx='auto'
         >
           {posts.map(post => (
-            <Link passHref href={`/posts/${post.slug}`}>
+            // @ts-ignore
+            <Link passHref href={!session?.activeSubscription ? `/posts/preview/${post.slug}` : `/posts/${post.slug}`}>
               <ChakraLink
                 key={post.slug}
                 display=' block'

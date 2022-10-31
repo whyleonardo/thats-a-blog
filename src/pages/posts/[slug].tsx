@@ -1,12 +1,11 @@
 import { asHTML, asText } from "@prismicio/helpers"
 import { GetServerSideProps } from "next"
-import { getSession } from "next-auth/react"
+import { getSession, useSession } from "next-auth/react"
 import { getPrismicClient } from "src/services/prismic"
 import Head from 'next/head'
 import { motion } from "framer-motion"
 import { Stack, VStack, Heading, Text, chakra } from "@chakra-ui/react"
 import { useRouter } from "next/router"
-import styles from './styles.module.scss'
 import css from "@emotion/styled"
 
 interface PostProps {
@@ -52,6 +51,7 @@ const StyledContent = chakra(cssContent)
 
 const Post = ({ post }: PostProps) => {
   const location = useRouter()
+
   return (
     <>
       <Head>
@@ -109,6 +109,16 @@ export default Post
 export const getServerSideProps: GetServerSideProps = async ({ req, params }) => {
   const session = await getSession({ req })
 
+  // @ts-ignore
+  if (!session?.activeSubscription) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false
+      }
+    }
+  }
+
   const { slug } = params
 
   const prismic = getPrismicClient(req)
@@ -126,14 +136,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req, params }) =>
     })
   }
 
-  if (!session?.activeSubscription) {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false
-      }
-    }
-  }
 
   return {
     props: {

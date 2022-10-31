@@ -30,9 +30,11 @@ const SignInButton = () => {
           <>
             {session
               ? <Avatar
-                name={session.user.name}
+                // @ts-ignore
+                name={session.session.user.name}
                 size='sm'
-                src={session.user.image}
+                // @ts-ignore
+                src={session.session.user.image}
               />
               : <FaGithubIcon
                 color={'yellow.500'}
@@ -40,7 +42,8 @@ const SignInButton = () => {
               />
             }
 
-            {session ? session.user.name : 'Sign in with Github'}
+            {/* @ts-ignore */}
+            {session ? session.session.user.name : 'Sign in with Github'}
             {
               session && (
                 <FiXIcon
