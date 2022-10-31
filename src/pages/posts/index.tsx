@@ -46,7 +46,7 @@ const Posts = ({ posts }: PostsProps) => {
           mx='auto'
         >
           {posts.map(post => (
-            <Link href={`/posts/${post.slug}`}>
+            <Link passHref href={`/posts/${post.slug}`}>
               <ChakraLink
                 key={post.slug}
                 display=' block'

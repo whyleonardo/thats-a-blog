@@ -1,15 +1,16 @@
 import { asHTML, asText } from "@prismicio/helpers"
-import { GetServerSideProps } from "next"
-import { getSession } from "next-auth/react"
+import { GetStaticProps, GetStaticPaths } from "next"
 import { getPrismicClient } from "src/services/prismic"
 import Head from 'next/head'
 import { motion } from "framer-motion"
-import { Stack, VStack, Heading, Text, chakra } from "@chakra-ui/react"
+import { Stack, VStack, Heading, Text, Box, Link as ChakraLink, chakra } from "@chakra-ui/react"
 import { useRouter } from "next/router"
-import styles from './styles.module.scss'
-import css from "@emotion/styled"
+import css from '@emotion/styled'
+import Link from "next/link"
+import { useSession } from "next-auth/react"
+import { useEffect } from "react"
 
-interface PostProps {
+interface PostPreviewProps {
   post: {
     slug: string
     title: string
@@ -22,7 +23,6 @@ const cssContent = css.div`
    margin-top: 2rem;
    line-height: 2rem;
    font-size: 1.125rem;
-   -webkit-font-smoothing: antialiased;
 
    h1,
    h2,
@@ -47,11 +47,18 @@ const cssContent = css.div`
      }
    }
 `
-
 const StyledContent = chakra(cssContent)
 
-const Post = ({ post }: PostProps) => {
+const PostPreview = ({ post }: PostPreviewProps) => {
   const location = useRouter()
+  const { data: session } = useSession()
+
+  useEffect(() => {
+    if (session?.activeSubscription) {
+      location.push(`/posts/${post.slug}`)
+    }
+  }, [session])
+
   return (
     <>
       <Head>
@@ -80,7 +87,6 @@ const Post = ({ post }: PostProps) => {
           <Heading
             fontSize='3rem'
             fontWeight='900'
-
           >
             {post.title}
           </Heading>
@@ -94,7 +100,37 @@ const Post = ({ post }: PostProps) => {
             {post.updatedAt}
           </Text>
 
-          <StyledContent dangerouslySetInnerHTML={{ __html: post.content }} />
+          <StyledContent
+            className='contentPreview'
+            bgGradient='linear(to-b, gray.100, transparent)'
+            bgClip='text'
+            dangerouslySetInnerHTML={{ __html: post.content }}
+          />
+
+          <Box
+            p='1.5rem'
+            minW='100%'
+            textAlign='center'
+            bg='gray.700'
+            rounded='full'
+            fontSize='1.25rem'
+            fontWeight='bold'
+            mt='4rem !important'
+            mb='2rem !important'
+            role='group'
+            _hover={{ opacity: 0.9 }}
+          >
+            Wanna continue reading?
+            <Link href='#' passHref>
+              <ChakraLink
+                color='yellow.500'
+                ml='0.5rem'
+                _groupHover={{ textDecoration: 'underline' }}
+              >
+                Subscribe now
+              </ChakraLink>
+            </Link>
+          </Box>
 
         </VStack>
       </Stack>
@@ -102,37 +138,33 @@ const Post = ({ post }: PostProps) => {
   )
 }
 
-export default Post
+export default PostPreview
 
 
+export const getStaticPaths: GetStaticPaths = () => {
+  return {
+    paths: [],
+    fallback: 'blocking'
+  }
+}
 
-export const getServerSideProps: GetServerSideProps = async ({ req, params }) => {
-  const session = await getSession({ req })
+export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   const { slug } = params
 
-  const prismic = getPrismicClient(req)
+  const prismic = getPrismicClient()
 
   const response = await prismic.getByUID('post', String(slug), {})
 
   const post = {
     slug,
     title: asText(response.data.title),
-    content: asHTML(response.data.content),
+    content: asHTML(response.data.content.splice(0, 3)),
     updatedAt: new Date(response.last_publication_date).toLocaleDateString('en-US', {
       day: '2-digit',
       month: 'long',
       year: 'numeric'
     })
-  }
-
-  if (!session?.activeSubscription) {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false
-      }
-    }
   }
 
   return {
