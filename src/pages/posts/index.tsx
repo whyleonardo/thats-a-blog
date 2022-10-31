@@ -6,6 +6,7 @@ import { getPrismicClient } from './../../services/prismic'
 import { asText } from '@prismicio/helpers'
 import { useRouter } from 'next/router'
 import { motion } from "framer-motion"
+
 type Post = {
   slug: string
   excerpt: string
@@ -21,78 +22,78 @@ const Posts = ({ posts }: PostsProps) => {
   const location = useRouter()
 
   return (
-    // <>
-    //   <Head>
-    //     <title>Posts | .NEXT</title>
-    //   </Head>
+    <>
+      <Head>
+        <title>Posts | .NEXT</title>
+      </Head>
 
-    <Stack
-      key={location.route}
-      as={motion.main}
-      transform='auto'
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0, translateX: 200 }}
-      px='2rem'
-      mx='auto'
-      h='calc(100vh - 5rem)'
-      maxW='1120px'
-      bg={[null, null, 'gray.900']}
-    >
-      <VStack
-        mt='3rem'
-        maxW='720px'
+      <Stack
+        key={location.route}
+        as={motion.main}
+        transform='auto'
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0, translateX: 200 }}
+        px='2rem'
         mx='auto'
+        h='calc(100vh - 5rem)'
+        maxW='1120px'
+        bg={[null, null, 'gray.900']}
       >
-        {posts.map(post => (
-          <Link href='#'>
-            <ChakraLink
-              key={post.slug}
-              display=' block'
-              borderTop='1px'
-              borderColor='gray.700'
-              py='1.5rem'
-              mt='1.5rem'
-              _first={{ borderTopWidth: 0, marginTop: 0, marginBottom: 0, paddingTop: 0 }}
-              role='group'
-              _hover={{ textDecoration: 'none' }}
-            >
-              <Text
-                display='flex'
-                as={'time'}
-                fontSize='1rem'
-                alignItems='center'
-                color='gray.600'
-
+        <VStack
+          mt='3rem'
+          maxW='720px'
+          mx='auto'
+        >
+          {posts.map(post => (
+            <Link href={`/posts/${post.slug}`}>
+              <ChakraLink
+                key={post.slug}
+                display=' block'
+                borderTop='1px'
+                borderColor='gray.700'
+                py='1.5rem'
+                mt='1.5rem'
+                _first={{ borderTopWidth: 0, marginTop: 0, marginBottom: 0, paddingTop: 0 }}
+                role='group'
+                _hover={{ textDecoration: 'none' }}
               >
-                {post.updatedAt}
-              </Text>
+                <Text
+                  display='block'
+                  as={'time'}
+                  fontSize='1rem'
+                  alignItems='center'
+                  color='gray.600'
 
-              <Heading
-                display='flex'
-                fontSize='1.5rem'
-                mt='1rem'
-                lineHeight='2rem'
-                transition='color 0.2s'
-                _groupHover={{ color: 'yellow.500' }}
-              >
-                {post.title}
-              </Heading>
+                >
+                  {post.updatedAt}
+                </Text>
 
-              <Text
-                color='gray.500'
-                mt='0.5rem'
-                lineHeight='1.625'
-                _groupHover={{ textDecoration: 'underline' }}
-              >
-                {post.excerpt}
-              </Text>
-            </ChakraLink>
-          </Link>
-        ))}
-      </VStack>
-    </Stack>
-    // </>
+                <Heading
+                  display='flex'
+                  fontSize='1.5rem'
+                  mt='1rem'
+                  lineHeight='2rem'
+                  transition='color 0.2s'
+                  _groupHover={{ color: 'yellow.500' }}
+                >
+                  {post.title}
+                </Heading>
+
+                <Text
+                  color='gray.500'
+                  mt='0.5rem'
+                  lineHeight='1.625'
+                  _groupHover={{ textDecoration: 'underline' }}
+                >
+                  {post.excerpt}
+                </Text>
+              </ChakraLink>
+            </Link>
+          ))}
+        </VStack>
+      </Stack>
+    </>
   )
 }
 
