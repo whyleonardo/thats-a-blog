@@ -54,6 +54,7 @@ const PostPreview = ({ post }: PostPreviewProps) => {
   const { data: session } = useSession()
 
   useEffect(() => {
+    // @ts-ignore
     if (session?.activeSubscription) {
       location.push(`/posts/${post.slug}`)
     }

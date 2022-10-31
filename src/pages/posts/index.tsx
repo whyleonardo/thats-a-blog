@@ -23,8 +23,6 @@ const Posts = ({ posts }: PostsProps) => {
   const location = useRouter()
   const { data: session } = useSession()
 
-  console.log(session)
-
   return (
     <>
       <Head>
