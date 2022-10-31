@@ -1,10 +1,11 @@
-import { Stack, Heading, Text, Image, VStack, Link } from "@chakra-ui/react"
-import { GetStaticProps } from "next"
+import { Stack, Heading, Text, VStack, Link as ChakraLink } from "@chakra-ui/react"
 import Head from 'next/head'
+import Link from 'next/link'
+import { GetStaticProps } from "next"
 import { getPrismicClient } from './../../services/prismic'
-import Prismic from '@prismicio/client'
 import { asText } from '@prismicio/helpers'
-
+import { useRouter } from 'next/router'
+import { motion } from "framer-motion"
 type Post = {
   slug: string
   excerpt: string
@@ -17,27 +18,35 @@ interface PostsProps {
 }
 
 const Posts = ({ posts }: PostsProps) => {
-  return (
-    <>
-      <Head>
-        <title>Posts | .NEXT</title>
-      </Head>
+  const location = useRouter()
 
-      <Stack
-        as={'main'}
-        px='2rem'
+  return (
+    // <>
+    //   <Head>
+    //     <title>Posts | .NEXT</title>
+    //   </Head>
+
+    <Stack
+      key={location.route}
+      as={motion.main}
+      transform='auto'
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0, translateX: 200 }}
+      px='2rem'
+      mx='auto'
+      h='calc(100vh - 5rem)'
+      maxW='1120px'
+      bg={[null, null, 'gray.900']}
+    >
+      <VStack
+        mt='3rem'
+        maxW='720px'
         mx='auto'
-        h='calc(100vh - 5rem)'
-        maxW='1120px'
-        bg={[null, null, 'gray.900']}
       >
-        <VStack
-          mt='3rem'
-          maxW='720px'
-          mx='auto'
-        >
-          {posts.map(post => (
-            <Link
+        {posts.map(post => (
+          <Link href='#'>
+            <ChakraLink
               key={post.slug}
               display=' block'
               borderTop='1px'
@@ -78,11 +87,12 @@ const Posts = ({ posts }: PostsProps) => {
               >
                 {post.excerpt}
               </Text>
-            </Link>
-          ))}
-        </VStack>
-      </Stack>
-    </>
+            </ChakraLink>
+          </Link>
+        ))}
+      </VStack>
+    </Stack>
+    // </>
   )
 }
 
@@ -108,8 +118,6 @@ export const getStaticProps: GetStaticProps = async () => {
       })
     }
   })
-
-  // console.log(response.)
 
   return {
     props: {

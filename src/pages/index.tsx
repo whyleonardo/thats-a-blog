@@ -3,6 +3,8 @@ import SubscribeButton from "@components/buttons/SubscribeButton"
 import { GetStaticProps } from "next"
 import Head from 'next/head'
 import { stripe } from "src/services/stripe"
+import { motion } from "framer-motion"
+import { useRouter } from 'next/router'
 
 interface HomeProps {
   product: {
@@ -12,6 +14,7 @@ interface HomeProps {
 }
 
 const Home = ({ product }: HomeProps) => {
+  const location = useRouter()
   return (
     <>
       <Head>
@@ -20,7 +23,11 @@ const Home = ({ product }: HomeProps) => {
 
       <Stack
         direction={['column', 'row']}
-        as={'main'}
+        key={location.route}
+        as={motion.main}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0, marginTop: '5rem' }}
         px='2rem'
         mt={['2rem', null, 0]}
         mx='auto'
